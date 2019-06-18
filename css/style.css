@@ -56,33 +56,46 @@ main {
   text-align: center;
   position: relative;
   float: left;
-  
+  display: inline-block;
 }
 
-
+img{
+  width: 300px;
+  height: 200px;
+}
 
 #images-container {
   background-color: pink;
   height: 400px;
   border: 1px solid black;
-  width: 960px;
+  width:1024px;
   position: relative;
 }
 
-#image1 {
+.imageBox1 {
   float: left;
-  display: inline;
+  display: inline-block;
 }
 
-#image2 {
+.imageBox2 {
   float: left;
-  display: inline;
+  display: inline-block;
 }
 
-#image3 {
+.imageBox3 {
   float: left;
-  display: inline;
+  display: inline-block;
 
+}
+
+#image1{
+  float:left;
+}
+#image2{
+  float:left;
+}
+#image3{
+  float:left;
 }
 
 #vote-button {
