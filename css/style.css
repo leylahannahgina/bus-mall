@@ -69,20 +69,13 @@ main {
   position: relative;
 }
 
-#image1 {
-  float: left;
-  display: inline;
+.image > img { 
+  width: 100%;
 }
-
-#image2 {
+.image {
   float: left;
   display: inline;
-}
-
-#image3 {
-  float: left;
-  display: inline;
-
+  width: 30%;
 }
 
 #vote-button {
