@@ -5,6 +5,35 @@
 header {
   position: relative;
   border: 1px solid black;
+  margin:30px;
+  padding: 5px;
+  overflow: hidden;
+}
+
+.logoWithTitle{
+  display:inline-block;
+}
+
+h1{
+  font-size: 2em;
+  display:inline-block;
+}
+
+.logoPic{
+  display:inline-block;
+}
+
+nav{
+  display: inline-block;
+  float: right;
+}
+
+nav>ul{
+  display:inline-block;
+}
+
+nav>ul>li{
+  display: inline-block;
 }
 
 main {
@@ -12,37 +41,30 @@ main {
   border: 1px solid red;
   display: inline-block;
   width: 100%;
+  text-align: center;
 }
 
-footer {
-  position: relative;
-  border: 1px solid blue;
-}
+#results-container {
+  width: 30%;
+  background-color: rebeccapurple;
+  display: inline-block;
+  float: left;
 
-section {
-  background-color: yellow;
 }
 
 #user-interface {
   text-align: center;
   position: relative;
   float: left;
+  
 }
 
-#results-container {
-  width: 5%;
-  background-color: rebeccapurple;
-  height: 400px;
-  display: inline-block;
-  float: left;
-}
+
 
 #images-container {
   background-color: pink;
   height: 400px;
   border: 1px solid black;
-  display: inline;
-  float: left;
   width: 960px;
   position: relative;
 }
@@ -55,7 +77,6 @@ section {
 #image2 {
   float: left;
   display: inline;
-
 }
 
 #image3 {
@@ -72,6 +93,7 @@ section {
 
 #instructions {
   background-color: orange;
+  display: block;
 }
 
 .image-display {
@@ -80,9 +102,13 @@ section {
   margin: 10px;
 }
 
-/* p {
-  display: inline-block;
-} */
+footer {
+  position: relative;
+  border: 1px solid blue;
+  margin: 30px;
+  text-align: center;
+}
+
 
 
 

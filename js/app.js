@@ -39,7 +39,7 @@ var currentImgDisplayedArr = [];
 console.log(currentImgDisplayedArr);
 function getRandoImage(){
   var randomImageIndex = Math.floor(Math.random()* images.length);
-  for (var i = 0; i < currentImgDisplayedArr.length; i++){
+  for (var i = 0; i < 3; i++){
     if (currentImgDisplayedArr[i] === randomImageIndex){
       randomImageIndex = Math.floor(Math.random()* images.length);  
       console.log(randomImageIndex);
