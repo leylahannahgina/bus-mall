@@ -2,6 +2,12 @@ Bus Mall
 
 An app that displays potential products to individuals in focus groups (three products at a time, side-by-side-by-side). Manage the size and aspect ratio of the images and perhaps edit them a bit.
 
+![alt text describing the image](./images/white-board-1.jpg).
+![alt text describing the image](./images/white-board-2.jpg).  
+
+
+
+
 <!-- Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system. -->
 

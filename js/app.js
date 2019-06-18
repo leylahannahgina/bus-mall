@@ -16,8 +16,8 @@ function ImagesInstance(name, filePath, description){
 }
 
 ImagesInstance.list = [];
-console.log(ImagesInstance.list);
-
+// console.log(ImagesInstance.list);
+// console.log(ImagesInstance.numDisplayed);
 
 //addEventListener for click
 var img1 = document.getElementById('image1');
@@ -34,35 +34,66 @@ var imgDisplayArr = [img1, img2, img3];
 
 //function to get random images
 
-
+var previousImgDisplayedArr = [];
+var currentImgDisplayedArr = [];
+console.log(currentImgDisplayedArr);
 function getRandoImage(){
   var randomImageIndex = Math.floor(Math.random()* images.length);
-  var imageSrc = images[randomImageIndex];
-  ImagesInstance.filePath = imageSrc;
+  for (var i = 0; i < currentImgDisplayedArr.length; i++){
+    if (currentImgDisplayedArr[i] === randomImageIndex){
+      randomImageIndex = Math.floor(Math.random()* images.length);  
+      console.log(randomImageIndex);
+    }else{
+      currentImgDisplayedArr.push(randomImageIndex);
+      console.log(randomImageIndex);
+    }
+    
+    
+  }
+  var imageSrc = ImagesInstance.list[randomImageIndex].filePath;
+  previousImgDisplayedArr.push(randomImageIndex);
+  currentImgDisplayedArr.push(randomImageIndex);
   return imageSrc;
 }
 
-console.log(getRandoImage());
+// console.log(getRandoImage());
+// console.log(currentImgDisplayedArr);
 
-//function to render images + descriptions
+//function to render images
+
 function renderImages(){
+  currentImgDisplayedArr = [];
   for(var i = 0; i < imgDisplayArr.length; i++){
     var renderImage = document.createElement('img');
     renderImage.className = 'image-display';
     renderImage.src = getRandoImage();
     imgDisplayArr[i].appendChild(renderImage);
-    
   }
 }
-renderImages();
 
-//function to deduplicate
+// console.log(previousImgDisplayedArr);
+
+//function to find out the image instance index
+
+  
+
+//function to render descriptions
+
+//function to deduplicate(looks at the previous array of images, )
+
+// function deduplicate(){
+  
+
+// }
+
+
+
 
 //clickEventListener(user initial count)
 
 //function to remove eventlistener (after 25 clicks)
 
-//function to calculate percentage of clicks 
+//function to calculate percentage of clicks
 
 var bag = new ImagesInstance('bag.jpg','./images/bag.jpg', 'Bag');
 var banana = new ImagesInstance('banana.jpg','./images/banana.jpg', 'Banana');
@@ -78,6 +109,6 @@ var pen = new ImagesInstance('pen.jpg','./images/pen.jpg', 'Pen');
 var petSweep = new ImagesInstance('pet-sweep.jpg','./images/pet-sweep.jpg', 'petSweep');
 var scissors = new ImagesInstance('scissors.jpg','./images/scissors.jpg', 'scissors');
 var shark = new ImagesInstance('shark.jpg','./images/shark.jpg', 'shark');
-var sweep = new ImagesInstance('sweep.jpg','./images/sweep.jpg', 'sweep');
+var sweep = new ImagesInstance('sweep.png','./images/sweep.png', 'sweep');
 
-
+renderImages();
