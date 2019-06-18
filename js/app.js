@@ -1,114 +1,181 @@
 'use strict';
 
 //construtor function to create an object for each image
-//properties: name, filePath, description, number of times that has been shown, number of times that hs been clicked ,array of each instance
+//properties: name, filepath, number of times that has been shown, number of times that hs been clicked ,array of each instance
 
+var numClicksAllowed = 25;
+var numClicksThisRound = 0;
+var prevImageSet = [];
 
-var images = ['./images/bag.jpg','./images/banana.jpg','./images/bathroom.jpg','./images/boots.jpg','./images/breakfast.jpg','./images/bubblegum.jpg','./images/chair.jpg','./images/cthulhu.jpg','./images/dog-duck.jpg','./images/dragon.jpg','./images/pen.jpg','./images/pet-sweep.jpg','./images/scissors.jpg','./images/shark.jpg','./images/sweep.png'];
-
-function ImagesInstance(name, filePath, description){
+function ImagesInstance(filepath, name){
   this.name = name;
-  this.filePath = filePath;
-  this.description = description;
+  this.filepath = filepath;
   this.numDisplayed = 0;
   this.numClicked = 0;
+  this.percentClicked = 0;
   ImagesInstance.list.push(this);
 }
 
 ImagesInstance.list = [];
-// console.log(ImagesInstance.list);
-// console.log(ImagesInstance.numDisplayed);
 
-//addEventListener for click
-var img1 = document.getElementById('image1');
-img1.addEventListener('click', getRandoImage);
+// Change the filepath
 
-var img2 = document.getElementById('image2');
-img2.addEventListener('click', getRandoImage);
+new ImagesInstance('./images/bag.jpg', 'Bag');
+new ImagesInstance('./images/banana.jpg', 'Banana');
+new ImagesInstance('./images/bathroom.jpg', 'Bathroom');
+new ImagesInstance('./images/boots.jpg', 'Boots');
+new ImagesInstance('./images/breakfast.jpg', 'Breakfast');
+new ImagesInstance('./images/bubblegum.jpg', 'BubbleGum');
+new ImagesInstance('./images/chair.jpg', 'Chair');
+new ImagesInstance('./images/cthulhu.jpg', 'cthulhu');
+new ImagesInstance('./images/dog-duck.jpg', 'dog-duck');
+new ImagesInstance('./images/dragon.jpg', 'dragon');
+new ImagesInstance('./images/pen.jpg', 'Pen');
+new ImagesInstance('./images/pet-sweep.jpg', 'petSweep');
+new ImagesInstance('./images/scissors.jpg', 'scissors');
+new ImagesInstance('./images/shark.jpg', 'shark');
+new ImagesInstance('./images/sweep.png', 'sweep');
+new ImagesInstance('./images/tauntaun.jpg','Tauntaun');
+new ImagesInstance('./images/unicorn.jpg','Unicorn');
+new ImagesInstance('./images/usb.gif','USB');
+new ImagesInstance('./images/water-can.jpg','Water Can');
+new ImagesInstance('./images/wine-glass.jpg','Wine Glass');
 
-var img3 = document.getElementById('image3');
-img3.addEventListener('click', getRandoImage);
 
-var imgDisplayArr = [img1, img2, img3];
+// functions to create and remove listeners
 
+function createListeners() {
+  var imageContainer = document.getElementById('images-container');
+  imageContainer.addEventListener('click', handleClick);
+}
 
-//function to get random images
+function removeListeners() {
+  var imageContainer = document.getElementById('images-container');
+  imageContainer.removeEventListener('click', handleClick);
+}
 
-var previousImgDisplayedArr = [];
-var currentImgDisplayedArr = [];
-console.log(currentImgDisplayedArr);
-function getRandoImage(){
-  var randomImageIndex = Math.floor(Math.random()* images.length);
-  for (var i = 0; i < 3; i++){
-    if (currentImgDisplayedArr[i] === randomImageIndex){
-      randomImageIndex = Math.floor(Math.random()* images.length);  
-      console.log(randomImageIndex);
-    }else{
-      currentImgDisplayedArr.push(randomImageIndex);
-      console.log(randomImageIndex);
+// function to generate random nums
+
+function getRandoNum() {
+  return Math.floor(Math.random() * ImagesInstance.list.length);
+}
+
+// function to handle click events
+
+function handleClick (event) {
+
+  for (var i = 0; i < ImagesInstance.list.length; i++) {
+    if (ImagesInstance.list[i].name === event.target.alt) {
+      ImagesInstance.list[i].numClicked++;
+      numClicksThisRound++;
+      // calcPercentClicks();
+      if (numClicksThisRound === numClicksAllowed) {
+        removeListeners();
+        createMyChart();
+      }
+      break;
     }
-    
-    
   }
-  var imageSrc = ImagesInstance.list[randomImageIndex].filePath;
-  previousImgDisplayedArr.push(randomImageIndex);
-  currentImgDisplayedArr.push(randomImageIndex);
-  return imageSrc;
+  getRandoImages();
 }
 
-// console.log(getRandoImage());
-// console.log(currentImgDisplayedArr);
-
-//function to render images
-
-function renderImages(){
-  currentImgDisplayedArr = [];
-  for(var i = 0; i < imgDisplayArr.length; i++){
-    var renderImage = document.createElement('img');
-    renderImage.className = 'image-display';
-    renderImage.src = getRandoImage();
-    imgDisplayArr[i].appendChild(renderImage);
-  }
-}
-
-// console.log(previousImgDisplayedArr);
-
-//function to find out the image instance index
-
-  
-
-//function to render descriptions
-
-//function to deduplicate(looks at the previous array of images, )
-
-// function deduplicate(){
-  
-
+// function to calculate % clicks
+// function calcPercentClicks () {
+//  var percenctClicks = (ImagesInstance.list[i].numClicked/ImagesInstance.list[i].numDisplayed);
+//  ImagesInstance.list[i].percentClicked = ImagesInstance.list[i].percentClicks;
 // }
 
 
+// function to get random images
+function getRandoImages() {
+
+  // List of images from DOM
+  var images = ['image1', 'image2', 'image3'];
+  var texts = ['image1-text','image2-text','image3-text'];
+
+  // Begin with empty set of images to compare against
+  var currImageSet = [];
+
+  // Repeat for each image showing
+  for (var i = 0; i < images.length; i++) {
+
+    // Find it in the DOM
+    var image = document.getElementById(images[i]);
+    var text = document.getElementById(texts[i]);
+
+    // False flag
+    var ok = false;
+
+    // Keep looking for a unique image to display
+    while (ok === false) {
+
+      // Get random number between 0 and # of images
+      var randoNum = getRandoNum();
+
+      // If not previously shown and not currently displayed
+      if (!prevImageSet.includes(randoNum) && !currImageSet.includes(randoNum)) {
+
+        // Update display count
+        ImagesInstance.list[randoNum].numDisplayed++;
+
+        // Render it
+        image.src = ImagesInstance.list[randoNum].filepath;
+        image.alt = ImagesInstance.list[randoNum].name;
+        text.textContent = ImagesInstance.list[randoNum].name;
+
+        // Add image to list of images displayed
+        currImageSet.push(randoNum);
 
 
-//clickEventListener(user initial count)
+        // End
+        ok = true;
+      }
+    }
+  }
+  // Set previous set of images displayed to current set
+  prevImageSet = currImageSet;
+}
 
-//function to remove eventlistener (after 25 clicks)
+function createMyChart() {
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
 
-//function to calculate percentage of clicks
-
-var bag = new ImagesInstance('bag.jpg','./images/bag.jpg', 'Bag');
-var banana = new ImagesInstance('banana.jpg','./images/banana.jpg', 'Banana');
-var bathroom = new ImagesInstance('bathroom.jpg','./images/bathroom.jpg', 'Bathroom');
-var boots = new ImagesInstance('boots.jpg','./images/boots.jpg', 'Boots');
-var breakfast = new ImagesInstance('breakfast.jpg','./images/breakfast.jpg', 'Breakfast');
-var bubblegum = new ImagesInstance('bubblegum.jpg','./images/bubblegum.jpg', 'BubbleGum');
-var chair = new ImagesInstance('chair.jpg','./images/chair.jpg', 'Chair');
-var cthulhu = new ImagesInstance('cthulhu.jpg','./images/cthulhu.jpg', 'cthulhu');
-var dogDuck = new ImagesInstance('dog-duck.jpg','./images/dog-duck.jpg', 'dog-duck');
-var dragon = new ImagesInstance('dragon.jpg','./images/dragon.jpg', 'dragon');
-var pen = new ImagesInstance('pen.jpg','./images/pen.jpg', 'Pen');
-var petSweep = new ImagesInstance('pet-sweep.jpg','./images/pet-sweep.jpg', 'petSweep');
-var scissors = new ImagesInstance('scissors.jpg','./images/scissors.jpg', 'scissors');
-var shark = new ImagesInstance('shark.jpg','./images/shark.jpg', 'shark');
-var sweep = new ImagesInstance('sweep.png','./images/sweep.png', 'sweep');
-
-renderImages();
+createListeners();
+getRandoImages();
+createMyChart();
