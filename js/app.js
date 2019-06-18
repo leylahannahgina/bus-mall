@@ -1,9 +1,7 @@
 'use strict';
 
-//construtor function to create an object for each image
-//properties: name, filePath, description, number of times that has been shown, number of times that hs been clicked ,array of each instance
-
-
+var clickedCount = 0;
+var maxClicked = 25;
 //var images = ['./images/bag.jpg','./images/banana.jpg','./images/bathroom.jpg','./images/boots.jpg','./images/breakfast.jpg','./images/bubblegum.jpg','./images/chair.jpg','./images/cthulhu.jpg','./images/dog-duck.jpg','./images/dragon.jpg','./images/pen.jpg','./images/pet-sweep.jpg','./images/scissors.jpg','./images/shark.jpg','./images/sweep.png'];
 
 function ImagesInstance(name, filePath, description){
@@ -17,71 +15,76 @@ function ImagesInstance(name, filePath, description){
 
 ImagesInstance.list = [];
 
-
-function getrandomnumber(){
-  var randomImageIndex = Math.floor(Math.random()* ImagesInstance.list.length);
-  return randomImageIndex;
-}
-
-
-function setupEventListener(){
-  var imgGroups = document.getElementsById('images-container');
-  imgGroups.addEventListener('click', runClick);
-}
-
-var clickedCount = 0;
-var maxClicked = 25;
-//setup event listener
-//remove event listener
 //getrandomnumber
-//handle click 
-//get random images
-//addEventListener for click
-var img1 = document.getElementById('image1');
-img1.addEventListener('click', getRandoImage);
+function getrandomnumber(){
+  return Math.floor(Math.random()* ImagesInstance.list.length);
+}
 
-var img2 = document.getElementById('image2');
-img2.addEventListener('click', getRandoImage);
+//setup event listener
+function setupEventListener(){
+  var imgDisplayArr = ['image1', 'image2', 'image3'];
+  for(var i =0; i < imgDisplayArr.length; i++){
+    var imgGroups = document.getElementById(imgDisplayArr[i]);
+    imgGroups.addEventListener('click', runClick);
+  }
+}
 
-var img3 = document.getElementById('image3');
-img3.addEventListener('click', getRandoImage);
 
-var imgDisplayArr = [image1, image2, image3];
+
+//remove event listener
+function rmEventListener(){
+  var imgDisplayArr = ['image1', 'image2', 'image3'];
+  for(var i =0; i < imgDisplayArr.length; i++){
+    var imgGroups = document.getElementById(imgDisplayArr[i]);
+    imgGroups.removeEventListener('click', runClick);
+  }
+}
+
+
+//TODO handle clicks
+function runClick(event){
+  clickedCount++;
+  for(var i = 0; i < ImagesInstance.list.length; i++){
+    if(ImagesInstance.list[i].name === event.target.alt){
+      ImagesInstance.list[i].numClicked++;
+      
+      if(clickedCount === maxClicked){
+        rmEventListener();
+        break;
+      }
+      
+    }
+  }
+  getRandoImages();
+}
 //function to get random images
+
 
 var previousImgDisplayedArr = [];
 
-function getRandoImage(){
-  var randomImageIndex = Math.floor(Math.random()* ImagesInstance.list.length);
+function getRandoImages(){
+  var imgDisplayArr = ['image1', 'image2', 'image3'];
   var currentImgDisplayedArr = [];
+
   for (var i = 0; i < imgDisplayArr.length; i++){
-    image = document.
-    if (currentImgDisplayedArr[i] === randomImageIndex){
-      randomImageIndex = Math.floor(Math.random()* ImagesInstance.list.length);  
-    }else{
-      currentImgDisplayedArr.push(randomImageIndex);
+    currentImgDisplayedArr = [];
+    var image = document.getElementById(imgDisplayArr[i]);
+    var deDuplicated = false;
+    while(deDuplicated === false){
+      var randomImageIndex = getrandomnumber();
+      if (!currentImgDisplayedArr.includes(randomImageIndex) && !previousImgDisplayedArr.includes(randomImageIndex)){
+        currentImgDisplayedArr.push(randomImageIndex);
+        ImagesInstance.list[i].numDisplayed++;
+        image.src = ImagesInstance.list[randomImageIndex].filePath;
+        image.alt = ImagesInstance.list[randomImageIndex].name;
+        deDuplicated = true;
+      }
+
     }
-    
-    
+    previousImgDisplayedArr = currentImgDisplayedArr;
   }
-  var imageSrc = ImagesInstance.list[randomImageIndex].filePath;
-  previousImgDisplayedArr.push(randomImageIndex);
-  currentImgDisplayedArr.push(randomImageIndex);
-  return imageSrc;
 }
 
-
-//function to render images
-
-function renderImages(){
-  currentImgDisplayedArr = [];
-  for(var i = 0; i < imgDisplayArr.length; i++){
-    var renderImage = document.createElement('img');
-    renderImage.className = 'image-display';
-    renderImage.src = getRandoImage();
-    imgDisplayArr[i].appendChild(renderImage);
-  }
-} 
 
 
 new ImagesInstance('bag.jpg','./images/bag.jpg', 'Bag');
@@ -100,6 +103,9 @@ new ImagesInstance('scissors.jpg','./images/scissors.jpg', 'scissors');
 new ImagesInstance('shark.jpg','./images/shark.jpg', 'shark');
 new ImagesInstance('sweep.png','./images/sweep.png', 'sweep');
 
-renderImages();
+
+setupEventListener();
+getRandoImages();
+console.log(clickedCount);
 
 
