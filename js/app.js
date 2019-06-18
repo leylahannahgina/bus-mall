@@ -12,6 +12,7 @@ function ImagesInstance(filepath, name){
   this.filepath = filepath;
   this.numDisplayed = 0;
   this.numClicked = 0;
+  this.percentClicked = 0;
   ImagesInstance.list.push(this);
 }
 
@@ -67,14 +68,22 @@ function handleClick (event) {
     if (ImagesInstance.list[i].name === event.target.alt) {
       ImagesInstance.list[i].numClicked++;
       numClicksThisRound++;
+      // calcPercentClicks();
       if (numClicksThisRound === numClicksAllowed) {
         removeListeners();
+        createMyChart();
       }
       break;
     }
   }
   getRandoImages();
 }
+
+// function to calculate % clicks
+// function calcPercentClicks () {
+//  var percenctClicks = (ImagesInstance.list[i].numClicked/ImagesInstance.list[i].numDisplayed);
+//  ImagesInstance.list[i].percentClicked = ImagesInstance.list[i].percentClicks;
+// }
 
 
 // function to get random images
@@ -86,7 +95,6 @@ function getRandoImages() {
 
   // Begin with empty set of images to compare against
   var currImageSet = [];
-  console.log(currImageSet);
 
   // Repeat for each image showing
   for (var i = 0; i < images.length; i++) {
@@ -106,20 +114,17 @@ function getRandoImages() {
 
       // If not previously shown and not currently displayed
       if (!prevImageSet.includes(randoNum) && !currImageSet.includes(randoNum)) {
-        console.log(currImageSet);
 
         // Update display count
         ImagesInstance.list[randoNum].numDisplayed++;
 
         // Render it
         image.src = ImagesInstance.list[randoNum].filepath;
-        console.log(image.src);
         image.alt = ImagesInstance.list[randoNum].name;
         text.textContent = ImagesInstance.list[randoNum].name;
 
         // Add image to list of images displayed
         currImageSet.push(randoNum);
-        console.log(currImageSet);
 
 
         // End
@@ -129,10 +134,48 @@ function getRandoImages() {
   }
   // Set previous set of images displayed to current set
   prevImageSet = currImageSet;
-  console.log(currImageSet);
-
 }
 
+function createMyChart() {
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
 
 createListeners();
 getRandoImages();
+createMyChart();
