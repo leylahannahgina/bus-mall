@@ -20,26 +20,26 @@ ImagesInstance.list = [];
 
 // Change the filepath
 
-new ImagesInstance('./images/bag.jpg', 'Bag');
-new ImagesInstance('./images/banana.jpg', 'Banana');
-new ImagesInstance('./images/bathroom.jpg', 'Bathroom');
-new ImagesInstance('./images/boots.jpg', 'Boots');
-new ImagesInstance('./images/breakfast.jpg', 'Breakfast');
-new ImagesInstance('./images/bubblegum.jpg', 'BubbleGum');
-new ImagesInstance('./images/chair.jpg', 'Chair');
-new ImagesInstance('./images/cthulhu.jpg', 'cthulhu');
-new ImagesInstance('./images/dog-duck.jpg', 'dog-duck');
-new ImagesInstance('./images/dragon.jpg', 'dragon');
-new ImagesInstance('./images/pen.jpg', 'Pen');
-new ImagesInstance('./images/pet-sweep.jpg', 'petSweep');
-new ImagesInstance('./images/scissors.jpg', 'scissors');
-new ImagesInstance('./images/shark.jpg', 'shark');
-new ImagesInstance('./images/sweep.png', 'sweep');
-new ImagesInstance('./images/tauntaun.jpg','Tauntaun');
-new ImagesInstance('./images/unicorn.jpg','Unicorn');
-new ImagesInstance('./images/usb.gif','USB');
-new ImagesInstance('./images/water-can.jpg','Water Can');
-new ImagesInstance('./images/wine-glass.jpg','Wine Glass');
+new ImagesInstance('./images/bag-rs.png', 'Other Worldly Travel');
+new ImagesInstance('./images/banana-rs.png', 'Go Bananas');
+new ImagesInstance('./images/bathroom-rs.png', 'Never Leave the Bathroom');
+new ImagesInstance('./images/boots-rs.png', 'A/C Rain Boots');
+new ImagesInstance('./images/breakfast-rs.png', 'Morning Glory');
+new ImagesInstance('./images/bubblegum-rs.png', 'Meat-a-ball Gum');
+new ImagesInstance('./images/chair-rs.png', 'Butt Shaping Chair');
+new ImagesInstance('./images/cthulhu-rs.png', 'Octo-Monsto');
+new ImagesInstance('./images/dog-duck-rs.png', 'Duckie Dog');
+new ImagesInstance('./images/dragon-rs.png', 'Why not?');
+new ImagesInstance('./images/pen-rs.png', 'Pentencils');
+new ImagesInstance('./images/pet-sweep-rs.png', 'Finally');
+new ImagesInstance('./images/scissors-rs.png', 'Pizza Scissors');
+new ImagesInstance('./images/shark-rs.png', 'Cozy Shark Bite');
+new ImagesInstance('./images/sweep-rs.png', 'Kid Sweeps');
+new ImagesInstance('./images/tauntaun-rs.png','Intestinal Sleeping Bag');
+new ImagesInstance('./images/unicorn-rs.png','Unicorn Deliciousness');
+new ImagesInstance('./images/usb-rs.gif','USB Tail');
+new ImagesInstance('./images/water-can-rs.png','Pointless Watering Can');
+new ImagesInstance('./images/wine-glass-rs.png','Dribble Wine Glass');
 
 
 // functions to create and remove listeners
