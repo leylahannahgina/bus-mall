@@ -9,11 +9,11 @@
 </head>
 
 <body>
-  
+
   <header>
     <div class="logoWithTitle">
-    <img class="logoPic" src="./images/200x70.png" alt="logo picture">
-    <h1>Bus Mall</h1>
+      <img class="logoPic" src="./images/200x70.png" alt="logo picture">
+      <h1>Bus Mall</h1>
     </div>
 
     <nav>
@@ -27,15 +27,28 @@
   </header>
 
   <main>
-    <section id="results-container"> 
+    <section id="results-container">
       HELLO RESULTS
     </section>
 
     <section id="user-interface">
       <div id="images-container">
-        <div class='image'><img id="image1" src="" alt=""><p id='image1-text'></p></div>
-        <div class='image'> <img id="image2" src="" alt=""><p id='image2-text'></p></div>
-        <div class='image'><img id="image3" src="" alt=""><p id='image3-text'></p></div>
+
+        <figure>
+          <img id="image1" src="" alt="">
+          <figcaption id='image1-text'></figcaption>
+        </figure>
+
+        <figure>
+          <img id="image2" src="" alt="">
+          <figcaption id='image2-text'></figcaption>
+        </figure>
+
+        <figure>
+          <img id="image3" src="" alt="">
+          <figcaption id='image3-text'></figcaption>
+        </figure>
+
       </div>
       <div id="vote-button">
         <button>Vote!</button>
@@ -47,13 +60,14 @@
 
     <section><canvas id="myChart" width="50" height="25"></canvas>
     </section>
-    </main>
+  </main>
 
   <footer>
     &copy; 2019 LeyHaGi
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+  <script type="text/javascript" src="./js/graph.js"></script>
   <script type="text/javascript" src="./js/app.js"></script>
 </body>
 

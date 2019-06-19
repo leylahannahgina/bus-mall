@@ -7,7 +7,7 @@ var numClicksAllowed = 25;
 var numClicksThisRound = 0;
 var prevImageSet = [];
 
-function ImagesInstance(filepath, name){
+function ImagesInstance(filepath, name) {
   this.name = name;
   this.filepath = filepath;
   this.numDisplayed = 0;
@@ -35,11 +35,11 @@ new ImagesInstance('./images/pet-sweep-rs.png', 'Finally');
 new ImagesInstance('./images/scissors-rs.png', 'Pizza Scissors');
 new ImagesInstance('./images/shark-rs.png', 'Cozy Shark Bite');
 new ImagesInstance('./images/sweep-rs.png', 'Kid Sweeps');
-new ImagesInstance('./images/tauntaun-rs.png','Intestinal Sleeping Bag');
-new ImagesInstance('./images/unicorn-rs.png','Unicorn Deliciousness');
-new ImagesInstance('./images/usb-rs.gif','USB Tail');
-new ImagesInstance('./images/water-can-rs.png','Pointless Watering Can');
-new ImagesInstance('./images/wine-glass-rs.png','Dribble Wine Glass');
+new ImagesInstance('./images/tauntaun-rs.png', 'Intestinal Sleeping Bag');
+new ImagesInstance('./images/unicorn-rs.png', 'Unicorn Deliciousness');
+new ImagesInstance('./images/usb-rs.gif', 'USB Tail');
+new ImagesInstance('./images/water-can-rs.png', 'Pointless Watering Can');
+new ImagesInstance('./images/wine-glass-rs.png', 'Dribble Wine Glass');
 
 
 // functions to create and remove listeners
@@ -62,16 +62,19 @@ function getRandoNum() {
 
 // function to handle click events
 
-function handleClick (event) {
+function handleClick(event) {
 
   for (var i = 0; i < ImagesInstance.list.length; i++) {
     if (ImagesInstance.list[i].name === event.target.alt) {
       ImagesInstance.list[i].numClicked++;
+
+      ImagesInstance.list[i].percentClicked = (ImagesInstance.list[i].numClicked / ImagesInstance.list[i].numDisplayed) * 100;
+
       numClicksThisRound++;
-      // calcPercentClicks();
+
       if (numClicksThisRound === numClicksAllowed) {
         removeListeners();
-        createMyChart();
+        prepareChartData();
       }
       break;
     }
@@ -79,19 +82,13 @@ function handleClick (event) {
   getRandoImages();
 }
 
-// function to calculate % clicks
-// function calcPercentClicks () {
-//  var percenctClicks = (ImagesInstance.list[i].numClicked/ImagesInstance.list[i].numDisplayed);
-//  ImagesInstance.list[i].percentClicked = ImagesInstance.list[i].percentClicks;
-// }
-
 
 // function to get random images
 function getRandoImages() {
 
   // List of images from DOM
   var images = ['image1', 'image2', 'image3'];
-  var texts = ['image1-text','image2-text','image3-text'];
+  var texts = ['image1-text', 'image2-text', 'image3-text'];
 
   // Begin with empty set of images to compare against
   var currImageSet = [];
@@ -136,46 +133,29 @@ function getRandoImages() {
   prevImageSet = currImageSet;
 }
 
-function createMyChart() {
-  var ctx = document.getElementById('myChart').getContext('2d');
-  var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
-    }
-  });
+function prepareChartData() {
+
+  var labels = [];
+  var data = [];
+  var bgColors = [];
+  var borderColors = [];
+
+  for (var i = 0; i < ImagesInstance.list.length; i++) {
+
+    var rbg = '#' + Math.floor(Math.random() * 16777215).toString(16);
+    var rbdr = '#' + Math.floor(Math.random() * 16777215).toString(16);
+
+    labels.push(ImagesInstance.list[i].name);
+    data.push(ImagesInstance.list[i].percentClicked);
+    bgColors.push(rbg);
+    borderColors.push(rbdr);
+
+  }
+
+  renderChart(labels, data, bgColors, borderColors);
 }
+
+
 
 createListeners();
 getRandoImages();
-createMyChart();
