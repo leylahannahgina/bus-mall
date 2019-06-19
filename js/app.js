@@ -47,14 +47,13 @@ function runClick(event){
   for(var i = 0; i < ImagesInstance.list.length; i++){
     if(ImagesInstance.list[i].name === event.target.alt){
       ImagesInstance.list[i].numClicked++;
-      
+
       if(clickedCount === maxClicked){
         rmEventListener();
         doTheChartThing();
-
         break;
       }
-      
+
     }
   }
   getRandoImages();
@@ -132,10 +131,10 @@ function doTheChartThing(){
     return b.pct -a.pct;
   });
 
-  for(var i =0; i < allTheData.length; i++){
-    labels.push(allTheData[i].name);
-    voteData.push(allTheData[i].pct);
-    var randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+  for(var x =0; x < allTheData.length; x++){
+    labels.push(allTheData[x].name);
+    voteData.push(allTheData[x].pct);
+    var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
     colors.push(randomColor);
   }
 
@@ -145,7 +144,7 @@ function doTheChartThing(){
       labels: labels,
       datasets: [
         {
-          label:"Popularity based on % of clicks",
+          label:'Popularity based on % of clicks',
           data: voteData,
           backgroundColor: colors
         }
@@ -154,14 +153,16 @@ function doTheChartThing(){
     options: {
       responsive: false,
       maintainAspectRatio: true,
-      scales: {
-        yAxes:[
-          {
-            ticks: {
-              beginAtZero: true
-            }
+      scales:{
+        xAxes: [{
+          barPercentage: 0.5,
+          barThickness: 6,
+          maxBarThickness: 8,
+          minBarLength: 2,
+          gridLines: {
+            offsetGridLines: true
           }
-        ]
+        }]
       }
     }
   });
