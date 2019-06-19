@@ -115,6 +115,11 @@ img{
   margin: 10px;
 }
 
+canvas{
+  width: 960px;
+  height: 500px;
+}
+
 footer {
   position: relative;
   border: 1px solid blue;

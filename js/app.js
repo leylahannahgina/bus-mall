@@ -50,6 +50,8 @@ function runClick(event){
       
       if(clickedCount === maxClicked){
         rmEventListener();
+        doTheChartThing();
+
         break;
       }
       
@@ -74,7 +76,7 @@ function getRandoImages(){
       var randomImageIndex = getrandomnumber();
       if (!currentImgDisplayedArr.includes(randomImageIndex) && !previousImgDisplayedArr.includes(randomImageIndex)){
         currentImgDisplayedArr.push(randomImageIndex);
-        ImagesInstance.list[i].numDisplayed++;
+        ImagesInstance.list[randomImageIndex].numDisplayed++;
         image.src = ImagesInstance.list[randomImageIndex].filePath;
         image.alt = ImagesInstance.list[randomImageIndex].name;
         deDuplicated = true;
@@ -100,12 +102,71 @@ new ImagesInstance('dragon.jpg','./images/dragon.jpg', 'dragon');
 new ImagesInstance('pen.jpg','./images/pen.jpg', 'Pen');
 new ImagesInstance('pet-sweep.jpg','./images/pet-sweep.jpg', 'petSweep');
 new ImagesInstance('scissors.jpg','./images/scissors.jpg', 'scissors');
-new ImagesInstance('shark.jpg','./images/shark.jpg', 'shark');
+new ImagesInstance('tauntaun.jpg','./images/tauntaun.jpg', 'tauntaun');
+new ImagesInstance('unicorn.jpg','./images/unicorn.jpg', 'unicorn');
 new ImagesInstance('sweep.png','./images/sweep.png', 'sweep');
+new ImagesInstance('usb.gif','./images/usb.gif', 'usb');
+new ImagesInstance('water-can.jpg','./images/water-can.jpg', 'water-can');
+new ImagesInstance('wine-glass.jpg','./images/wine-glass.jpg', 'wine-glass');
+
 
 
 setupEventListener();
 getRandoImages();
 console.log(clickedCount);
+
+var ctx = document.getElementById('chartArea').getContext('2d');
+
+var allTheData = ImagesInstance.list;
+
+function doTheChartThing(){
+  var labels = [];
+  var voteData = [];
+  var colors = [];
+
+  for(var i = 0; i < allTheData.length; i++){
+    allTheData[i].pct = Math.round((allTheData[i].numClicked / allTheData[i].numDisplayed)*100);
+  }
+
+  allTheData.sort(function(a,b){
+    return b.pct -a.pct;
+  });
+
+  for(var i =0; i < allTheData.length; i++){
+    labels.push(allTheData[i].name);
+    voteData.push(allTheData[i].pct);
+    var randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+    colors.push(randomColor);
+  }
+
+  var myChart = new Chart(ctx, {
+    type: 'horizontalBar',
+    data:{
+      labels: labels,
+      datasets: [
+        {
+          label:"Popularity based on % of clicks",
+          data: voteData,
+          backgroundColor: colors
+        }
+      ]
+    },
+    options: {
+      responsive: false,
+      maintainAspectRatio: true,
+      scales: {
+        yAxes:[
+          {
+            ticks: {
+              beginAtZero: true
+            }
+          }
+        ]
+      }
+    }
+  });
+
+
+}
 
 
