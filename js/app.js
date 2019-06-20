@@ -1,9 +1,22 @@
 'use strict';
 
+
+var imagesPaths = ['../images/bag.jpg','../images/banana.jpg','../images/bathroom.jpg','../images/boots.jpg','../images/breakfast.jpg','../images/bubblegum.jpg','../images/chair.jpg','../images/cthulhu.jpg','../images/dog-duck.jpg','../images/dragon.jpg','../images/pen.jpg','../images/pet-sweep.jpg','../images/scissors.jpg','../images/shark.jpg','../images/sweep.png','../images/usb.gif','../images/water-can.jpg','../images/wine-glass.jpg'];
+
+var imagesDescriptions = ['bag', 'banana', 'bathroom', 'boots', 'breakfast','bubblegum','chair','cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','usb','water-can','wine-glass'];
+
+var imagesNames = ['bag.jpg', 'banana.jpg','bathroom.jpg','boots.jpg','breakfast.jpg','bubblegum.jpg','chair.jpg','cthulhu.jpg','dog-duck.jpg','dragon.jpg','pen.jpg','pet-sweep.jpg','scissors.jpg','shark','sweep.png','usb.gif','water-can.jpg','wine-glass.jpg'];
+
+ImagesInstance.list = [];
+
 var clickedCount = 0;
 var maxClicked = 25;
-//var images = ['./images/bag.jpg','./images/banana.jpg','./images/bathroom.jpg','./images/boots.jpg','./images/breakfast.jpg','./images/bubblegum.jpg','./images/chair.jpg','./images/cthulhu.jpg','./images/dog-duck.jpg','./images/dragon.jpg','./images/pen.jpg','./images/pet-sweep.jpg','./images/scissors.jpg','./images/shark.jpg','./images/sweep.png'];
 
+//check if there is a ls
+
+
+
+//constructor funtion
 function ImagesInstance(name, filePath, description){
   this.name = name;
   this.filePath = filePath;
@@ -12,9 +25,20 @@ function ImagesInstance(name, filePath, description){
   this.numClicked = 0;
   ImagesInstance.list.push(this);
 }
+if(localStorage.previousChartData){
+ ImagesInstance.list = JSON.parse(localStorage.getItem('previousChartData'));
+}else{
+  createNewInstances(imagesNames,imagesPaths,imagesDescriptions);
+}
 
-ImagesInstance.list = [];
+//create Instances
+function createNewInstances(newName, newFilePath, newDescription){
+  for (var i = 0; i< imagesNames.length; i++){
+    new ImagesInstance(newName[i], newFilePath[i], newDescription[i]);
+  }
+}
 
+console.log(ImagesInstance.list);
 //getrandomnumber
 function getrandomnumber(){
   return Math.floor(Math.random()* ImagesInstance.list.length);
@@ -28,8 +52,6 @@ function setupEventListener(){
     imgGroups.addEventListener('click', runClick);
   }
 }
-
-
 
 //remove event listener
 function rmEventListener(){
@@ -49,8 +71,15 @@ function runClick(event){
       ImagesInstance.list[i].numClicked++;
 
       if(clickedCount === maxClicked){
+        localStorage.setItem('previousChartData', JSON.stringify(ImagesInstance.list));
         rmEventListener();
+        //todo create currentChartData and asign it to the combination to current one with previous one
         doTheChartThing();
+        // var stringyfiedCurrentChartData =JSON.stringify(ImagesInstance.list);
+        // console.log(stringyfiedCurrentChartData);
+
+        // //todo need to combine current data (instanlist) with previous data and update currentchartdata
+       
         break;
       }
 
@@ -66,9 +95,7 @@ var previousImgDisplayedArr = [];
 function getRandoImages(){
   var imgDisplayArr = ['image1', 'image2', 'image3'];
   var currentImgDisplayedArr = [];
-
   for (var i = 0; i < imgDisplayArr.length; i++){
-    currentImgDisplayedArr = [];
     var image = document.getElementById(imgDisplayArr[i]);
     var deDuplicated = false;
     while(deDuplicated === false){
@@ -82,37 +109,14 @@ function getRandoImages(){
       }
 
     }
-    previousImgDisplayedArr = currentImgDisplayedArr;
   }
+  previousImgDisplayedArr = currentImgDisplayedArr;
 }
-
-
-
-new ImagesInstance('bag.jpg','./images/bag.jpg', 'Bag');
-new ImagesInstance('banana.jpg','./images/banana.jpg', 'Banana');
-new ImagesInstance('bathroom.jpg','./images/bathroom.jpg', 'Bathroom');
-new ImagesInstance('boots.jpg','./images/boots.jpg', 'Boots');
-new ImagesInstance('breakfast.jpg','./images/breakfast.jpg', 'Breakfast');
-new ImagesInstance('bubblegum.jpg','./images/bubblegum.jpg', 'BubbleGum');
-new ImagesInstance('chair.jpg','./images/chair.jpg', 'Chair');
-new ImagesInstance('cthulhu.jpg','./images/cthulhu.jpg', 'cthulhu');
-new ImagesInstance('dog-duck.jpg','./images/dog-duck.jpg', 'dog-duck');
-new ImagesInstance('dragon.jpg','./images/dragon.jpg', 'dragon');
-new ImagesInstance('pen.jpg','./images/pen.jpg', 'Pen');
-new ImagesInstance('pet-sweep.jpg','./images/pet-sweep.jpg', 'petSweep');
-new ImagesInstance('scissors.jpg','./images/scissors.jpg', 'scissors');
-new ImagesInstance('tauntaun.jpg','./images/tauntaun.jpg', 'tauntaun');
-new ImagesInstance('unicorn.jpg','./images/unicorn.jpg', 'unicorn');
-new ImagesInstance('sweep.png','./images/sweep.png', 'sweep');
-new ImagesInstance('usb.gif','./images/usb.gif', 'usb');
-new ImagesInstance('water-can.jpg','./images/water-can.jpg', 'water-can');
-new ImagesInstance('wine-glass.jpg','./images/wine-glass.jpg', 'wine-glass');
 
 
 
 setupEventListener();
 getRandoImages();
-console.log(clickedCount);
 
 var ctx = document.getElementById('chartArea').getContext('2d');
 
@@ -169,5 +173,4 @@ function doTheChartThing(){
 
 
 }
-
 
